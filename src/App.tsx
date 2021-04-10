@@ -20,21 +20,18 @@ export type CartItemType = {
   amount: number;
 };
 
+const baseURL = "https://fakestoreapi.com/products";
+
+const getProducts = async (): Promise<CartItemType[]> =>
+  await (await fetch(baseURL)).json();
+
 const App = () => {
-  const baseURL = "https://fakestoreapi.com/products";
+  const { data, isLoading, error } = useQuery<CartItemType[]>(
+    "products",
+    getProducts
+  );
 
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const products = await axios(baseURL);
-
-      setProducts(products.data);
-    };
-    fetchProducts();
-  }, []);
-
-  console.log(products);
+  console.log(data);
 
   return (
     <div>
