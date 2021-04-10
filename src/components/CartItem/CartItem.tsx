@@ -4,6 +4,7 @@ import { CartItemType } from "../../App";
 // Styles
 import { Wrapper } from "./CartItem.styles";
 
+// why returning voids??
 type Props = {
   item: CartItemType;
   addToCart: (clicked: CartItemType) => void;

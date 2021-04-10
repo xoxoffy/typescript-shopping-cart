@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useQuery } from "react-query";
 // Components
 import Item from "./components/Item/Item";
@@ -10,7 +10,6 @@ import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import Badge from "@material-ui/core/Badge";
 // Styles
 import { Wrapper, StyledButton } from "./App.styles";
-import { ListItemSecondaryAction } from "@material-ui/core";
 // Types
 export type CartItemType = {
   id: number;
@@ -24,6 +23,7 @@ export type CartItemType = {
 
 const baseURL = "https://fakestoreapi.com/products";
 
+// await and await??
 const getProducts = async (): Promise<CartItemType[]> =>
   await (await fetch(baseURL)).json();
 
@@ -31,14 +31,18 @@ const App = () => {
   const [cartIsOpen, setCartIsOpen] = useState(false);
   const [cartItems, setCartItems] = useState([] as CartItemType[]);
 
+  // I have no idea how useQuery works and what it does exactly. Why useQuery instead of useEffect?
+  // What are the differences
   const { data, isLoading, error } = useQuery<CartItemType[]>(
     "products",
     getProducts
   );
 
+  // wtf is ack?
   const getTotalItems = (items: CartItemType[]) =>
     items.reduce((ack: number, item) => ack + item.amount, 0);
 
+  // How are we accessing the previousState??
   const handleAddToCart = (clickedItem: CartItemType) => {
     setCartItems((previousState) => {
       // Is the item already in the cart?
@@ -58,6 +62,7 @@ const App = () => {
     });
   };
 
+  // ack?!
   const handleRemoveFromCart = (id: number) => {
     setCartItems((previousState) =>
       previousState.reduce((ack, item) => {
