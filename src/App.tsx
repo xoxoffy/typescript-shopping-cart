@@ -10,6 +10,7 @@ import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import Badge from "@material-ui/core/Badge";
 // Styles
 import { Wrapper, StyledButton } from "./App.styles";
+import { ListItemSecondaryAction } from "@material-ui/core";
 // Types
 export type CartItemType = {
   id: number;
@@ -35,14 +36,40 @@ const App = () => {
     getProducts
   );
 
-  console.log(data);
-
   const getTotalItems = (items: CartItemType[]) =>
     items.reduce((ack: number, item) => ack + item.amount, 0);
 
-  const handleAddToCart = (clickedItem: CartItemType) => null;
+  const handleAddToCart = (clickedItem: CartItemType) => {
+    setCartItems((previousState) => {
+      // Is the item already in the cart?
+      const isItemInCart = previousState.find(
+        (item) => item.id === clickedItem.id
+      );
 
-  const handleRemoveFromCart = () => null;
+      if (isItemInCart) {
+        return previousState.map((item) =>
+          item.id === clickedItem.id
+            ? { ...item, amount: item.amount + 1 }
+            : item
+        );
+      }
+      // First time the item is added
+      return [...previousState, { ...clickedItem, amount: 1 }];
+    });
+  };
+
+  const handleRemoveFromCart = (id: number) => {
+    setCartItems((previousState) =>
+      previousState.reduce((ack, item) => {
+        if (item.id === id) {
+          if (item.amount === 1) return ack;
+          return [...ack, { ...item, amount: item.amount - 1 }];
+        } else {
+          return [...ack, item];
+        }
+      }, [] as CartItemType[])
+    );
+  };
 
   if (isLoading) return <LinearProgress />;
   if (error) return <div> Something went wrong.. </div>;
