@@ -4,7 +4,6 @@ import { CartItemType } from "../../App";
 // Styles
 import { Wrapper } from "./Item.styles";
 
-// why void
 type Props = {
   item: CartItemType;
   handleAddToCart: (clickedItem: CartItemType) => void;

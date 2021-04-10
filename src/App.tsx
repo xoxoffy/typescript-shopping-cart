@@ -31,18 +31,15 @@ const App = () => {
   const [cartIsOpen, setCartIsOpen] = useState(false);
   const [cartItems, setCartItems] = useState([] as CartItemType[]);
 
-  // I have no idea how useQuery works and what it does exactly. Why useQuery instead of useEffect?
-  // What are the differences
   const { data, isLoading, error } = useQuery<CartItemType[]>(
     "products",
     getProducts
   );
 
-  // wtf is ack?
   const getTotalItems = (items: CartItemType[]) =>
     items.reduce((ack: number, item) => ack + item.amount, 0);
 
-  // How are we accessing the previousState??
+  // We can access the previousState by providing an anonymous function to the setter
   const handleAddToCart = (clickedItem: CartItemType) => {
     setCartItems((previousState) => {
       // Is the item already in the cart?
@@ -62,7 +59,6 @@ const App = () => {
     });
   };
 
-  // ack?!
   const handleRemoveFromCart = (id: number) => {
     setCartItems((previousState) =>
       previousState.reduce((ack, item) => {
