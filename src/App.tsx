@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import axios from "axios";
 // Components
+import Item from "./components/Item/Item";
 import Drawer from "@material-ui/core/Drawer";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Grid from "@material-ui/core/Grid";
@@ -33,11 +34,25 @@ const App = () => {
 
   console.log(data);
 
+  const gotTotalItems = () => null;
+
+  const handleAddToCart = (clickedItem: CartItemType) => null;
+
+  const handleRemoveFromCart = () => null;
+
+  if (isLoading) return <LinearProgress />;
+  if (error) return <div> Something went wrong.. </div>;
+
   return (
-    <div>
-      <h1>Hello</h1>
-      <h1>There</h1>
-    </div>
+    <Wrapper>
+      <Grid container spacing={3}>
+        {data?.map((item) => (
+          <Grid item key={item.id} xs={12} sm={4}>
+            <Item item={item} handleAddToCart={handleAddToCart} />
+          </Grid>
+        ))}
+      </Grid>
+    </Wrapper>
   );
 };
 
